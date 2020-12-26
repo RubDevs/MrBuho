@@ -5,6 +5,7 @@ const productsApiRouter = require("./routes/api/products")
 const app =express()
 
 app.use("/static", express.static(path.join(__dirname,"public")))
+app.use(express.json())
 
 app.use("/products",productsRouter)
 app.use("/api/products",productsApiRouter)
