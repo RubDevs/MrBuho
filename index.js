@@ -3,6 +3,12 @@ const path = require("path")
 const productsRouter = require("./routes/views/products")
 const productsApiRouter = require("./routes/api/products")
 
+const {
+    logErrors,
+    clientErrorHandler,
+    errorHandler
+} = require('./utils/middleware/errorHandlers')
+
 //app
 const app =express()
 
@@ -24,6 +30,11 @@ app.set("view engine","pug")
 app.get("/", function(req,res){
     res.redirect("/products")
 })
+
+//errorsHandler
+app.use(logErrors)
+app.use(clientErrorHandler)
+app.use(errorHandler)
 
 //server
 const server = app.listen(3000, function(){

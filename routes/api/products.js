@@ -8,6 +8,7 @@ router.get("/",async function(req,res,next){
     const { tags } = req.query
 
     try {
+        throw new Error("Error de API")
         const products = await productService.getProducts({ tags })
 
         res.status(200).json({
