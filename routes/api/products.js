@@ -1,6 +1,13 @@
 const express = require("express")
 const router = express.Router()
 const ProductsService = require("../../services/products")
+const { 
+    createProductSchema, 
+    updateProductSchema, 
+    productIdSchema, 
+    productTagSchema 
+} = require('../../utils/schema/products')
+const validation = require('../../utils/middleware/validationHandler')
 
 const productService = new ProductsService()
 
@@ -8,7 +15,6 @@ router.get("/",async function(req,res,next){
     const { tags } = req.query
 
     try {
-        throw new Error("Error de API")
         const products = await productService.getProducts({ tags })
 
         res.status(200).json({
@@ -37,7 +43,7 @@ router.get("/:productId",async function(req,res,next){
     
 })
 
-router.post("/",async function(req,res,next){
+router.post("/",validation(createProductSchema),async function(req,res,next){
     const { body: product } = req
 
     try {
@@ -53,7 +59,11 @@ router.post("/",async function(req,res,next){
     
 })
 
-router.put("/:productId",async function(req,res,next){
+router.put(
+    "/:productId",
+    validation({"productId": productIdSchema}, "params"),
+    validation(updateProductSchema),
+    async function(req,res,next){
     const { productId } = req.params
     const { body: product } = req
     
@@ -69,7 +79,7 @@ router.put("/:productId",async function(req,res,next){
     
 })
 
-router.delete("/:productId",async function(req,res,next){
+router.delete("/:productId",validation(productIdSchema),async function(req,res,next){
     const { productId } = req.params
 
     try {
