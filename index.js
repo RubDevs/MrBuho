@@ -23,7 +23,7 @@ app.use("/static", express.static(path.join(__dirname,"public")))
 
 //routes
 app.use("/products",productsRouter)
-app.use("/api/products",productsApiRouter)
+productsApiRouter(app)
 app.use("/api/auth", authApiRouter)
 
 //view engine setup
