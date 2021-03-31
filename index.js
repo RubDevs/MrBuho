@@ -1,5 +1,6 @@
 const express = require("express");
 const debug = require("debug")("app:server");
+const helmet = require("helmet");
 const path = require("path");
 const productsRouter = require("./routes/views/products");
 const productsApiRouter = require("./routes/api/products");
@@ -17,6 +18,7 @@ const isRequestAjaxOrApi = require("./utils/isRequestAjaxOrApi");
 const app = express();
 
 //middlewares
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(express.json());
 
 //static content
